@@ -1,0 +1,2 @@
+# xjsonschema
+JSONのスキーマをXMLで定義
