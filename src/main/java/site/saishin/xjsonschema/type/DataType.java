@@ -1,19 +1,12 @@
-package site.saishin.xjsonschema;
+package site.saishin.xjsonschema.type;
 
-public enum JsonData {
-	BOOLEAN,INTEGER,NUMBER,STRING,ARRAY,OBJECT,TYPED_OBJECT,NONE;
-	
-	private JsonData() {
-
-	}
-	public static JsonData from(String name) {
-		JsonData type;
+enum DataType {
+	BOOLEAN,INTEGER,NUMBER,STRING,ARRAY,OBJECT;
+	public static DataType from(String name) {
+		DataType type;
 		switch (name) {
 		case "object":
 			type = OBJECT;
-			break;
-		case "typed-object":
-			type = TYPED_OBJECT;
 			break;
 		case "array":
 			type = ARRAY;
@@ -31,7 +24,7 @@ public enum JsonData {
 			type = STRING;
 			break;
 		default:
-			type = NONE;
+			type = null;
 			break;
 		}
 		return type;

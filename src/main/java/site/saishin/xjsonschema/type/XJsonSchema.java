@@ -13,8 +13,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import site.saishin.xjsonschema.JsonData;
-import site.saishin.xjsonschema.JsonType;
+import site.saishin.xjsonschema.SchemaElement;
+import site.saishin.xjsonschema.SchemaElementType;
 
 public class XJsonSchema {
 
@@ -22,7 +22,7 @@ public class XJsonSchema {
 	final RootType jsonSchema;
 
 	private XJsonSchema(Builder builder) {
-		this.jsonSchema = builder.jsonschema;
+		this.jsonSchema = builder.root;
 	}
 
 	private XJsonSchema(XJsonSchema base) {
@@ -32,55 +32,60 @@ public class XJsonSchema {
 	public void dump() {
 		jsonSchema.objects.forEach((s, t) -> {
 			System.out.println(s);
-			if (t.type() == JsonData.OBJECT) {
+			if (t.type() == SchemaElementType.OBJECT) {
 
 			}
 		});
 	}
 
-	public JsonType root() {
+	public SchemaElement root() {
 		return jsonSchema;
 	}
+
+	public static XJsonSchema from(XJsonSchema value) {
+		return new XJsonSchema(value);
+	}
 	public static XJsonSchema create(Document d) {
-		return builder().document(d).build();
+		return new Builder().document(d).build();
 	}
 
 	public Visitor newVisitor() {
 		return new Visitor(jsonSchema);
 	}
+
 	public static class Visitor {
 		ObjectType current;
 		RootType jsonSchema;
+
 		private Visitor(RootType jsonSchema) {
 			this.jsonSchema = jsonSchema;
 		}
-		JsonData current() {
+
+		SchemaElementType current() {
 			return current.type();
 		}
-		public void next() {
-			
-		}
-		void root() {
-			
-		}
-		public void ifObject(Consumer<Visitor> consumer) {
-			consumer
-			.andThen((t)->{
-				t.ifObject(consumer);
-			})
-			.accept(this);
-		}
-	}
 
-	private static Builder builder() {
-		return new Builder();
+		public void next() {
+
+		}
+
+		void root() {
+
+		}
+
+		public void ifObject(Consumer<Visitor> consumer) {
+			consumer.andThen((t) -> {
+				t.ifObject(consumer);
+			}).accept(this);
+		}
 	}
 
 	static class Builder {
-		RootType jsonschema;
+		RootType root;
 		Map<String, BaseJsonType> current;
 		Document document;
-
+		Map<Typable, String> refs;
+		
 		Builder document(Document value) {
 			Objects.requireNonNull(value);
 			document = value;
@@ -88,23 +93,42 @@ public class XJsonSchema {
 		}
 
 		XJsonSchema build() {
-			Element root = document.getDocumentElement();
-			jsonschema = new RootType();
-			jsonschema.objects = new HashMap<String, BaseJsonType>();
-			jsonschema.set(root.getAttributes());
-			current = jsonschema.objects;
-			NodeList children = root.getChildNodes();
+			Objects.requireNonNull(document);
+			refs = new HashMap<>();
+			root = new RootType();
+			root.objects = new HashMap<String, BaseJsonType>();
+			NodeList children = document.getDocumentElement().getChildNodes();
 			for (int i = 0; i < children.getLength(); i++) {
 				if (children.item(i).getNodeType() == Node.ELEMENT_NODE) {
-					element((Element) children.item(i));
+					Element child = (Element) children.item(i);
+					if (child.getNodeName().equals("def")) {
+						Def def = new Def();
+						def.objects = new HashMap<String, BaseJsonType>();
+						current = def.objects;
+						Map<String, BaseJsonType> tmp = current;
+						NodeList defchildren = child.getChildNodes();
+						for (int j = 0; j < defchildren.getLength(); j++) {
+							if (defchildren.item(j).getNodeType() == Node.ELEMENT_NODE) {
+								element((Element) defchildren.item(j));
+							}
+						}
+						current = tmp;
+						root.defs.put(child.getAttribute("id"), def);
+					} else {
+						current = root.objects;
+						element(child);
+					}
 				}
 			}
+			refs.forEach((Typable t, String s) -> {
+				t.setDef(root.defs.get(s));
+			});
 			return new XJsonSchema(this);
 		}
 
 		private void element(Element elem) {
 			NamedNodeMap attrs = elem.getAttributes();
-			switch (JsonData.from(elem.getNodeName())) {
+			switch (SchemaElementType.from(elem.getNodeName())) {
 			case STRING:
 				StringType jstring = new StringType();
 				jstring.set(attrs);
@@ -128,17 +152,13 @@ public class XJsonSchema {
 			case ARRAY:
 				ArrayType jarray = new ArrayType();
 				jarray.set(attrs);
-				if (attrs.getNamedItem("type") != null) {
-					jarray.type = JsonData.from(attrs.getNamedItem("type").getNodeValue());
-				}
+				jarray.setType(elem, refs);
 				current.put(jarray.name, jarray);
 				break;
 			case TYPED_OBJECT:
 				TypedObjectType typedjobject = new TypedObjectType();
 				typedjobject.set(attrs);
-				if (attrs.getNamedItem("type") != null) {
-					typedjobject.type = JsonData.from(attrs.getNamedItem("type").getNodeValue());
-				}
+				typedjobject.setType(elem, refs);
 				current.put(typedjobject.name, typedjobject);
 				break;
 			case OBJECT:

@@ -15,9 +15,9 @@ import site.saishin.xjsonschema.type.XJsonSchema;
 import site.saishin.xjsonschema.type.XJsonSchema.Visitor;
 
 public class JacksonValidator {
+	private static final Logger logger = LoggerFactory.getLogger(JacksonValidator.class); 
 	final XJsonSchema xJsonSchema;
 	JsonParser parser;
-	private static final Logger logger = LoggerFactory.getLogger(JacksonValidator.class); 
 	public JacksonValidator(XJsonSchema jsonSchema) {
 		xJsonSchema = jsonSchema;
 	}
@@ -40,19 +40,19 @@ public class JacksonValidator {
 		return false;
 	}
 
-	boolean test(JsonToken token, JsonData type) throws IOException {
+	boolean test(JsonToken token, SchemaElementType type) throws IOException {
 		logger.debug("test:{}:{}", token.name(), type);
-		if (token.isBoolean() && type == JsonData.BOOLEAN) {
+		if (token.isBoolean() && type == SchemaElementType.BOOLEAN) {
 			return true;
-		} else if (token == JsonToken.VALUE_STRING && type == JsonData.STRING) {
+		} else if (token == JsonToken.VALUE_STRING && type == SchemaElementType.STRING) {
 			return true;
-		} else if (token == JsonToken.VALUE_NUMBER_INT && type == JsonData.NUMBER) {
+		} else if (token == JsonToken.VALUE_NUMBER_INT && type == SchemaElementType.NUMBER) {
 			return true;
-		} else if (token == JsonToken.VALUE_NUMBER_FLOAT && type == JsonData.NUMBER) {
+		} else if (token == JsonToken.VALUE_NUMBER_FLOAT && type == SchemaElementType.NUMBER) {
 			return true;
-		} else if (token == JsonToken.START_OBJECT && type == JsonData.OBJECT) {
+		} else if (token == JsonToken.START_OBJECT && type == SchemaElementType.OBJECT) {
 			return true;
-		} else if (token == JsonToken.START_ARRAY && type == JsonData.ARRAY) {
+		} else if (token == JsonToken.START_ARRAY && type == SchemaElementType.ARRAY) {
 			return true;
 		}
 		return false;

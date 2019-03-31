@@ -1,11 +1,11 @@
 package site.saishin.xjsonschema.type;
 
-import site.saishin.xjsonschema.JsonData;
+import site.saishin.xjsonschema.SchemaElementType;
 
 class StringType extends PrimitiveType {
 
 	@Override
-	public JsonData type() {
-		return JsonData.STRING;
+	public SchemaElementType type() {
+		return SchemaElementType.STRING;
 	}
 }

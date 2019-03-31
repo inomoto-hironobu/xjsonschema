@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <json-schema name="complex" xmlns="https://www.json.org">
 	<object name="object">
-		<array name="numberArray" type="number"/>
+		<array name="numberArray">
+			<ref>test</ref>
+		</array>
 		<string name="string"/>
 		<number name="number"/>
 		<object name="nullable" nullable="true">
-			<array name="array" />
+			<array name="array">
+				<base>integer</base>
+			</array>
 		</object>
 	</object>
-	<typed-object name="stringObject" required="true" type="string"/>
-	<array name="stringArray" type="string"/>
+	<typed-object name="stringObject" required="true">
+		<base>string</base>
+	</typed-object>
+	<array name="stringArray">
+		<ref>test</ref>
+	</array>
+	<def id="test">
+		
+	</def>
 </json-schema>

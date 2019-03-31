@@ -22,10 +22,12 @@
 		<xs:attribute name="nullable" type="xs:boolean"
 			default="false" />
 	</xs:attributeGroup>
-	<xs:complexType name="primitive.type">
-		<xs:attribute name="default" type="xs:boolean" />
-		<xs:attributeGroup ref="tns:common.attr" />
-	</xs:complexType>
+	<xs:group name="type.ref.group">
+		<xs:choice>
+			<xs:element name="ref" type="xs:IDREF"></xs:element>
+			<xs:element name="base" type="tns:data.type"></xs:element>
+		</xs:choice>
+	</xs:group>
 	<xs:group name="object.group">
 		<xs:choice>
 			<xs:element name="boolean">
@@ -54,8 +56,8 @@
 			</xs:element>
 			<xs:element name="array">
 				<xs:complexType>
+					<xs:group ref="tns:type.ref.group" minOccurs="0"/>
 					<xs:attributeGroup ref="tns:common.attr" />
-					<xs:attribute name="type" type="tns:data.type" />
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="object">
@@ -72,13 +74,9 @@
 			</xs:element>
 			<xs:element name="typed-object">
 				<xs:complexType>
+					<xs:group ref="tns:type.ref.group" minOccurs="0"/>
 					<xs:attributeGroup ref="tns:common.attr" />
-					<xs:attribute name="type" type="tns:data.type" />
 				</xs:complexType>
-				<xs:unique name="typed-object.restriction">
-					<xs:selector xpath="tns:*" />
-					<xs:field xpath="@name" />
-				</xs:unique>
 			</xs:element>
 		</xs:choice>
 	</xs:group>
@@ -86,6 +84,18 @@
 		<xs:complexType>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:group ref="tns:object.group" />
+				<xs:element name="def">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:group ref="tns:object.group" />
+						</xs:choice>
+						<xs:attribute name="id" type="xs:ID"></xs:attribute>
+					</xs:complexType>
+					<xs:unique name="def.restriction">
+						<xs:selector xpath="tns:*" />
+						<xs:field xpath="@name" />
+					</xs:unique>
+				</xs:element>
 			</xs:choice>
 			<xs:attribute name="name" />
 		</xs:complexType>

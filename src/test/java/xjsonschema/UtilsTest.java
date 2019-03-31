@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-import site.saishin.xjsonschema.JsonType;
+import site.saishin.xjsonschema.SchemaElement;
 import site.saishin.xjsonschema.Main;
 import site.saishin.xjsonschema.type.XJsonSchema;
 import site.saishin.xjsonschema.type.XJsonSchema.Visitor;
@@ -51,7 +51,7 @@ public class UtilsTest {
 			visitor.ifObject((v)->{
 				v.next();
 			});
-			JsonType root = j.root();
+			SchemaElement root = j.root();
 			root.ifObjetGet("").ifPresentOrElse((t)->{
 				System.out.println(t);
 			}, ()->{

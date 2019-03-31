@@ -1,11 +1,18 @@
 package site.saishin.xjsonschema.type;
 
-import site.saishin.xjsonschema.JsonData;
+import site.saishin.xjsonschema.SchemaElementType;
 
-class TypedObjectType extends BaseJsonType {
-	JsonData type;
+class TypedObjectType extends BaseJsonType implements Typable {
+	DataType type;
+	ObjectType otype;
+	TypeGroup typeGroup = new TypeGroup();
 	@Override
-	public JsonData type() {
-		return JsonData.TYPED_OBJECT;
+	public SchemaElementType type() {
+		return SchemaElementType.TYPED_OBJECT;
 	}
+	@Override
+	public TypeGroup typeGroup() {
+		return typeGroup;
+	}
+
 }

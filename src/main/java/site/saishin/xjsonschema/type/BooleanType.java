@@ -1,10 +1,10 @@
 package site.saishin.xjsonschema.type;
 
-import site.saishin.xjsonschema.JsonData;
+import site.saishin.xjsonschema.SchemaElementType;
 
 class BooleanType extends PrimitiveType {
 	@Override
-	public JsonData type() {
-		return JsonData.BOOLEAN;
+	public SchemaElementType type() {
+		return SchemaElementType.BOOLEAN;
 	}
 }
