@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<json-schema name="npm.package" xmlns="https://www.json.org">
+	<string name="name" />
+	<string name="version" />
+	<string name="description" />
+	<string name="main" />
+	<typed-object name="scripts" type="string" />
+	<object name="repository">
+		<string name="type" />
+		<string name="url" />
+	</object>
+	<string name="author" />
+	<string name="license" />
+	<object name="bugs">
+		<string name="url" />
+	</object>
+	<typed-object name="devDependencies" type="string" />
+	<typed-object name="dependencies" type="string" />
+</json-schema>

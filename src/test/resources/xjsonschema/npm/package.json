@@ -1,0 +1,33 @@
+{
+  "name": "hoge",
+  "version": "0.0.0",
+  "description": "JSON用のスキーマのサンプル",
+  "main": "src/js/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "http": "http-server",
+    "build": "node src/js/main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://hoge.com"
+  },
+  "author": "ほげ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://hoge.com"
+  },
+  "homepage": "https://hoge.com",
+  "devDependencies": {
+    "typescript": "^2.2.1"
+  },
+  "dependencies": {
+    "@types/jquery": "^3.2.1",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "eslint": "^3.15.0",
+    "jsdom": "^11.1.0",
+    "vue": "~2.1.10",
+    "vue-router": "2.4.0"
+  }
+}
