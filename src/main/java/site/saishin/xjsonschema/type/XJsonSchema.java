@@ -1,12 +1,9 @@
 package site.saishin.xjsonschema.type;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,23 +13,13 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-
-import site.saishin.xjsonschema.JsonDataType;
+import site.saishin.xjsonschema.JsonData;
+import site.saishin.xjsonschema.JsonType;
 
 public class XJsonSchema {
 
-	private static final Logger logger = LoggerFactory.getLogger(XJsonSchema.class);
-	final JsonSchema jsonSchema;
-	JsonObject currentObject;
-	JsonDataType currentDataType = JsonDataType.OBJECT;
-	String currentname;
-	Deque<JsonObject> stack;
-	boolean valid;
-	JsonToken currentToken;
-	JsonParser parser;
+	static final Logger logger = LoggerFactory.getLogger(XJsonSchema.class);
+	final RootType jsonSchema;
 
 	private XJsonSchema(Builder builder) {
 		this.jsonSchema = builder.jsonschema;
@@ -45,178 +32,44 @@ public class XJsonSchema {
 	public void dump() {
 		jsonSchema.objects.forEach((s, t) -> {
 			System.out.println(s);
-			if (t.type() == JsonDataType.OBJECT) {
+			if (t.type() == JsonData.OBJECT) {
 
 			}
 		});
 	}
 
+	public JsonType root() {
+		return jsonSchema;
+	}
 	public static XJsonSchema create(Document d) {
 		return builder().document(d).build();
 	}
 
-	void execArray() throws IOException {
-		boolean notNull = true;
-		int depth = 1;
-		currentToken = parser.nextToken();
-		while (notNull) {
-			logger.debug("depth:{}", depth);
-			if (currentToken == JsonToken.START_ARRAY) {
-				depth++;
-			} else if (currentToken == JsonToken.END_ARRAY) {
-				depth--;
-				if (depth < 1) {
-					return;
-				}
-			} else {
-				logger.debug("execArray:{}", currentToken);
-			}
-			currentToken = parser.nextToken();
-			notNull = currentToken != null;
-		}
+	public Visitor newVisitor() {
+		return new Visitor(jsonSchema);
 	}
-
-	void execTypedObject(JsonDataType tjson) throws IOException {
-		logger.debug("execTypedObject:{}:{}", tjson, currentToken.name());
-		currentname = parser.getCurrentName();
-		valid = true;
-		boolean notNull = currentToken != null;
-		while (notNull) {
-			if (currentToken != JsonToken.FIELD_NAME) {
-				logger.debug("exec while:{}", currentToken.name());
-				valid = test(currentToken, tjson);
-			}
-			if (!valid)
-				return;
-			currentToken = parser.nextToken();
-			notNull = currentToken != null;
+	public static class Visitor {
+		ObjectType current;
+		RootType jsonSchema;
+		private Visitor(RootType jsonSchema) {
+			this.jsonSchema = jsonSchema;
 		}
-	}
-
-	boolean test(JsonToken token, JsonDataType type) throws IOException {
-		logger.debug("test:{}:{}", token.name(), type);
-		if (token.isBoolean() && type == JsonDataType.BOOLEAN) {
-			return true;
-		} else if (token == JsonToken.VALUE_STRING && type == JsonDataType.STRING) {
-			return true;
-		} else if (token == JsonToken.VALUE_NUMBER_INT && type == JsonDataType.NUMBER) {
-			return true;
-		} else if (token == JsonToken.VALUE_NUMBER_FLOAT && type == JsonDataType.NUMBER) {
-			return true;
-		} else if (token == JsonToken.START_OBJECT && type == JsonDataType.OBJECT) {
-			execOjbectWithoutValidation();
-			return true;
-		} else if (token == JsonToken.START_ARRAY && type == JsonDataType.ARRAY) {
-			execArray();
-			return true;
+		JsonData current() {
+			return current.type();
 		}
-		return false;
-	}
-
-	void execOjbectWithoutValidation() throws IOException {
-		boolean notNull = currentToken != null;
-		while (notNull) {
-			if (currentToken == JsonToken.END_OBJECT) {
-				return;
-			} else if (currentToken == JsonToken.START_OBJECT) {
-				execOjbectWithoutValidation();
-			} else {
-				logger.debug("execOjbectWithoutValidation:{}", currentToken);
-			}
-			currentToken = parser.nextToken();
-			notNull = currentToken != null;
+		public void next() {
+			
 		}
-	}
-
-	void execObject() throws IOException {
-		boolean notNull = true;
-		logger.debug("execObject:{}:{}", currentToken, currentObject.name);
-		while (notNull) {
-			currentToken = parser.nextToken();
-			currentname = parser.getCurrentName();
-
-			logger.debug("begin:{}:{}:{}:{}", currentToken, currentname, currentObject.name,
-					parser.getCurrentLocation().getLineNr());
-			if (currentToken == JsonToken.FIELD_NAME) {
-				valid = currentObject.objects.containsKey(currentname);
-				if (valid) {
-					currentDataType = currentObject.objects.get(currentname).type();
-				} else {
-					logger.error(currentname);
-					currentObject.objects.forEach((s, t) -> {
-						System.err.println("a :" + s);
-					});
-					break;
-				}
-			} else if (currentToken == JsonToken.START_OBJECT) {
-				valid = currentDataType == JsonDataType.OBJECT;
-				if (currentDataType == JsonDataType.TYPED_OBJECT) {
-					currentToken = parser.nextToken();
-					execTypedObject(((TypedJsonObject) currentObject.objects.get(currentname)).type);
-				} else {
-					currentObject = (JsonObject) currentObject.objects.get(currentname);
-					execObject();
-					stack.addFirst(currentObject);
-				}
-			} else if (currentToken == JsonToken.END_OBJECT) {
-				currentObject = stack.removeFirst();
-				currentname = parser.getCurrentName();
-				return;
-			} else if (currentToken == JsonToken.START_ARRAY) {
-				valid = currentDataType == JsonDataType.ARRAY;
-				execArray();
-			} else if (currentToken == JsonToken.END_ARRAY) {
-				logger.error("");
-			} else {
-				switch (currentToken) {
-				case VALUE_FALSE:
-					valid = currentDataType == JsonDataType.BOOLEAN;
-					break;
-				case VALUE_TRUE:
-					valid = currentDataType == JsonDataType.BOOLEAN;
-					break;
-				case VALUE_NUMBER_INT:
-					valid = currentDataType == JsonDataType.INTEGER;
-					break;
-				case VALUE_NUMBER_FLOAT:
-					valid = currentDataType == JsonDataType.NUMBER;
-					break;
-				case VALUE_STRING:
-					valid = currentDataType == JsonDataType.STRING;
-					break;
-				case VALUE_NULL:
-					valid = currentObject.nullable;
-					break;
-				default:
-					System.err.println("処理ミス");
-					break;
-				}
-			}
-			logger.debug("end:{}:{}:{}:{}:{}", currentToken, currentname, currentObject.name, currentDataType,
-					parser.getCurrentLocation().getLineNr());
-			notNull = currentToken != null;
+		void root() {
+			
 		}
-	}
-
-	void execStruct() {
-
-	}
-
-	public boolean validate(InputStream json) {
-		JsonFactory f = new JsonFactory();
-		f.disable(JsonFactory.Feature.CANONICALIZE_FIELD_NAMES);
-		try {
-			parser = f.createParser(json);
-			System.out.println("始まり" + currentToken);
-			currentObject = jsonSchema;
-			stack = new LinkedList<>();
-			stack.addFirst(jsonSchema);
-			currentToken = parser.nextToken();
-			execObject();
-		} catch (IOException e) {
-			logger.error("error", e);
+		public void ifObject(Consumer<Visitor> consumer) {
+			consumer
+			.andThen((t)->{
+				t.ifObject(consumer);
+			})
+			.accept(this);
 		}
-		return valid;
 	}
 
 	private static Builder builder() {
@@ -224,7 +77,7 @@ public class XJsonSchema {
 	}
 
 	static class Builder {
-		JsonSchema jsonschema;
+		RootType jsonschema;
 		Map<String, BaseJsonType> current;
 		Document document;
 
@@ -236,7 +89,7 @@ public class XJsonSchema {
 
 		XJsonSchema build() {
 			Element root = document.getDocumentElement();
-			jsonschema = new JsonSchema();
+			jsonschema = new RootType();
 			jsonschema.objects = new HashMap<String, BaseJsonType>();
 			jsonschema.set(root.getAttributes());
 			current = jsonschema.objects;
@@ -251,45 +104,45 @@ public class XJsonSchema {
 
 		private void element(Element elem) {
 			NamedNodeMap attrs = elem.getAttributes();
-			switch (JsonDataType.from(elem.getNodeName())) {
+			switch (JsonData.from(elem.getNodeName())) {
 			case STRING:
-				JsonString jstring = new JsonString();
+				StringType jstring = new StringType();
 				jstring.set(attrs);
 				current.put(jstring.name, jstring);
 				break;
 			case NUMBER:
-				JsonNumber jnumber = new JsonNumber();
+				NumberType jnumber = new NumberType();
 				jnumber.set(attrs);
 				current.put(jnumber.name, jnumber);
 				break;
 			case INTEGER:
-				JsonInteger jinteger = new JsonInteger();
+				IntegerType jinteger = new IntegerType();
 				jinteger.set(attrs);
 				current.put(jinteger.name, jinteger);
 				break;
 			case BOOLEAN:
-				JsonBoolean jboolean = new JsonBoolean();
+				BooleanType jboolean = new BooleanType();
 				jboolean.set(attrs);
 				current.put(jboolean.name, jboolean);
 				break;
 			case ARRAY:
-				JsonArray jarray = new JsonArray();
+				ArrayType jarray = new ArrayType();
 				jarray.set(attrs);
 				if (attrs.getNamedItem("type") != null) {
-					jarray.type = JsonDataType.from(attrs.getNamedItem("type").getNodeValue());
+					jarray.type = JsonData.from(attrs.getNamedItem("type").getNodeValue());
 				}
 				current.put(jarray.name, jarray);
 				break;
 			case TYPED_OBJECT:
-				TypedJsonObject typedjobject = new TypedJsonObject();
+				TypedObjectType typedjobject = new TypedObjectType();
 				typedjobject.set(attrs);
 				if (attrs.getNamedItem("type") != null) {
-					typedjobject.type = JsonDataType.from(attrs.getNamedItem("type").getNodeValue());
+					typedjobject.type = JsonData.from(attrs.getNamedItem("type").getNodeValue());
 				}
 				current.put(typedjobject.name, typedjobject);
 				break;
 			case OBJECT:
-				JsonObject jsonObject = new JsonObject();
+				ObjectType jsonObject = new ObjectType();
 				jsonObject.set(attrs);
 				jsonObject.objects = new HashMap<String, BaseJsonType>();
 				Map<String, BaseJsonType> tmp = current;

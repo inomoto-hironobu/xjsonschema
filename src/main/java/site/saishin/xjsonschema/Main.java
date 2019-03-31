@@ -63,7 +63,7 @@ public final class Main {
 		return null;
 	}
 	public static boolean validate(InputStream json, InputStream jsonSchema) throws SAXException, IOException {
-		XJsonSchema xJsonSchema = jsonSchema(jsonSchema);
-		return xJsonSchema.validate(json);
+		JacksonValidator validator = new JacksonValidator(jsonSchema(jsonSchema));
+		return validator.validate(json);
 	}
 }

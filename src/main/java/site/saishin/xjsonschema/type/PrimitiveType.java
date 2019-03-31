@@ -1,5 +1,7 @@
 package site.saishin.xjsonschema.type;
 
+import java.util.Optional;
+
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -11,5 +13,9 @@ abstract class PrimitiveType extends BaseJsonType {
 		Node defaultAttr = attrs.getNamedItem("default");
 		if(defaultAttr != null)
 			defaultValue = defaultAttr.getNodeValue();
+	}
+	@Override
+	public Optional<String> defaultValue() {
+		return Optional.of(defaultValue);
 	}
 }

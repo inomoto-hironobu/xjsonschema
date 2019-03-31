@@ -18,3 +18,14 @@ JSONのスキーマをXMLで定義
 JSON型はパッケージプライベートの構造体で表している。これによって不完全ではあるが実用的なイミュータブルを実現している。
 
 APIはファサードを扱うだけにしたい。
+
+## 開発
+中心となるXML Schemaは
+[xjsonschema/src/main/resources/xjsonschema/](https://github.com/inomoto-hironobu/xjsonschema/tree/master/src/main/resources/xjsonschema)
+に置いてある。
+
+参考用及びテスト用のXMLとJSONは
+[xjsonschema/src/test/resources/xjsonschema/](https://github.com/inomoto-hironobu/xjsonschema/tree/master/src/test/resources/xjsonschema)
+の各ディレクトリいに置いてある。
+
+JUnitでのテストコードを準備している。

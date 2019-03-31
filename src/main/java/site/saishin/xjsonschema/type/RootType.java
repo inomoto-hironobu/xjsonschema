@@ -1,5 +1,5 @@
 package site.saishin.xjsonschema.type;
 
-class JsonSchema extends JsonObject {
+class RootType extends ObjectType {
 
 }

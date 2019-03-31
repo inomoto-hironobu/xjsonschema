@@ -1,13 +1,13 @@
 package site.saishin.xjsonschema;
 
-public enum JsonDataType {
+public enum JsonData {
 	BOOLEAN,INTEGER,NUMBER,STRING,ARRAY,OBJECT,TYPED_OBJECT,NONE;
 	
-	private JsonDataType() {
+	private JsonData() {
 
 	}
-	public static JsonDataType from(String name) {
-		JsonDataType type;
+	public static JsonData from(String name) {
+		JsonData type;
 		switch (name) {
 		case "object":
 			type = OBJECT;
