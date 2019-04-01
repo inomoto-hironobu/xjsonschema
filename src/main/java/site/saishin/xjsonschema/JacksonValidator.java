@@ -11,14 +11,15 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
-import site.saishin.xjsonschema.type.XJsonSchema;
-import site.saishin.xjsonschema.type.XJsonSchema.Visitor;
+import site.saishin.xjsonschema.typea.SchemaElementType;
+import site.saishin.xjsonschema.typea.struct.XJsonSchemaTypea;
+import site.saishin.xjsonschema.typea.struct.XJsonSchemaTypea.Visitor;
 
 public class JacksonValidator {
 	private static final Logger logger = LoggerFactory.getLogger(JacksonValidator.class); 
-	final XJsonSchema xJsonSchema;
+	final XJsonSchemaTypea xJsonSchema;
 	JsonParser parser;
-	public JacksonValidator(XJsonSchema jsonSchema) {
+	public JacksonValidator(XJsonSchemaTypea jsonSchema) {
 		xJsonSchema = jsonSchema;
 	}
 

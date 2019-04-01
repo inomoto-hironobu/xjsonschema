@@ -19,12 +19,10 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
-import site.saishin.xjsonschema.SchemaElement;
-import site.saishin.xjsonschema.typea.struct.XJsonSchemaTypea;
-import site.saishin.xjsonschema.typea.struct.XJsonSchemaTypea.Visitor;
 import site.saishin.xjsonschema.Main;
+import site.saishin.xjsonschema.typea.struct.XJsonSchemaTypea;
 
-public class UtilsTest {
+public class OtherTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -41,7 +39,27 @@ public class UtilsTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-	private InputStream get(String name) {
-		return this.getClass().getResourceAsStream("/xjsonschema" + name);
+	@Test
+	public void testJackson() {
+		InputStream json = Util.common("/npm/package.json");
+		JsonFactory f = new JsonFactory();
+		f.disable(JsonFactory.Feature.CANONICALIZE_FIELD_NAMES);
+		try {
+			JsonParser parser = f.createParser(json);
+			JsonToken token;
+			boolean notNull = true;
+			while (notNull) {
+				token = parser.nextToken();
+				System.out.println(token);
+				System.out.println(parser.getCurrentName());
+				System.out.println(parser.getCurrentLocation());
+				notNull = token != null;
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+
 }

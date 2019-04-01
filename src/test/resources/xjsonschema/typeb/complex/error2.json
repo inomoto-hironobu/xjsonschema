@@ -1,0 +1,37 @@
+{
+	"object":{
+		"numberArray":[
+			1,
+			2,
+			3
+		],
+		"string":"test",
+		"number":1,
+		"nullable":null,
+		"anyArray": [
+			"test",
+			{
+				"string":"test"
+			},
+			1,
+			null
+		]
+	},
+	"object2":{
+		"nullable":{
+			
+		},
+		"nullableNumber":null,
+		"nullableString":null,
+		"array":[
+			[],
+			[]
+		]
+	},
+	"object3": {
+		"object3": {
+			"object3":null,
+			"string":"test"
+		}
+	}
+}

@@ -1,8 +1,6 @@
-package site.saishin.xjsonschema;
+package site.saishin.xjsonschema.typeb;
 
 import java.util.Optional;
-
-import site.saishin.xjsonschema.typea.SchemaElementType;
 
 public interface SchemaElement {
 	SchemaElementType type();

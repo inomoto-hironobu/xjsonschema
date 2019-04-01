@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<json-schema name="complex" xmlns="https://www.json.org/typeb">
+	<object name="object">
+		<array name="numberArray" type="number"/>
+		<string name="string"/>
+		<number name="number"/>
+		<object name="nullable" nullable="true">
+			<array name="array" type="number"/>
+		</object>
+	</object>
+	<typed-object name="stringObject" required="true" type="string"/>
+</json-schema>

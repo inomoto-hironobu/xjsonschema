@@ -1,0 +1,24 @@
+{
+	"object":{
+		"numberArray":[
+			1,
+			2,
+			3
+		],
+		"string":"test",
+		"number":1,
+		"nullable":null,
+		"anyArray": [
+			"test",
+			{
+				"string":"test"
+			},
+			1,
+			null
+		]
+	},
+	"stringObject":{
+		"test":"test",
+		"test2":"test2"
+	}
+}
