@@ -16,7 +16,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import site.saishin.xschema.Main;
-import site.saishin.xschema.xjsonschema.SchemaElement;
+import site.saishin.xschema.xjsonschema.typea.SchemaElement;
 import site.saishin.xschema.xjsonschema.typea.struct.XJsonSchemaTypea;
 import site.saishin.xschema.xjsonschema.typea.struct.XJsonSchemaTypea.Visitor;
 import site.saishin.xschema.xjsonschema.typeb.struct.XJsonSchemaTypeb;

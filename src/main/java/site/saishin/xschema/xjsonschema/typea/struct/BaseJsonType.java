@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.w3c.dom.NamedNodeMap;
 
-import site.saishin.xschema.xjsonschema.SchemaElement;
+import site.saishin.xschema.xjsonschema.typea.SchemaElement;
 
 abstract class BaseJsonType implements SchemaElement {
 	String name;

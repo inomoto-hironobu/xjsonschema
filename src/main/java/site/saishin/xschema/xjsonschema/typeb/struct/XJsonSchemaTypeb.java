@@ -14,8 +14,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import site.saishin.xschema.xjsonschema.DataType;
-import site.saishin.xschema.xjsonschema.SchemaElement;
-import site.saishin.xschema.xjsonschema.typea.SchemaElementType;
+import site.saishin.xschema.xjsonschema.typeb.SchemaElement;
+import site.saishin.xschema.xjsonschema.typeb.SchemaElementType;
 
 public class XJsonSchemaTypeb {
 

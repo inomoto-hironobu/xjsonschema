@@ -18,8 +18,7 @@ public enum DataType {
 			type = STRING;
 			break;
 		default:
-			type = null;
-			break;
+			throw new IllegalArgumentException(name);
 		}
 		return type;
 	}

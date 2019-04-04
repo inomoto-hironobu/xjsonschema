@@ -16,9 +16,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import site.saishin.xschema.Main;
-import site.saishin.xschema.xjsonschema.SchemaElement;
-import site.saishin.xschema.xjsonschema.typea.struct.XJsonSchemaTypea;
-import site.saishin.xschema.xjsonschema.typea.struct.XJsonSchemaTypea.Visitor;
+import site.saishin.xschema.xkvschema.typec.*;
 
 public class TypecTest {
 
@@ -81,8 +79,8 @@ public class TypecTest {
 		Document d;
 		try {
 			d = Main.getInstance().documentBuilder().parse(get("/simple/json.xml"));
-			XJsonSchemaTypea j = XJsonSchemaTypea.create(d);
-			j.dump();
+//			XJsonSchemaTypea j = XJsonSchemaTypea.create(d);
+//			j.dump();
 		} catch (SAXException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -99,17 +97,17 @@ public class TypecTest {
 		Document d;
 		try {
 			d = Main.getInstance().documentBuilder().parse(get("/simple/json.xml"));
-			XJsonSchemaTypea j = XJsonSchemaTypea.create(d);
-			Visitor visitor = j.newVisitor();
-			visitor.ifObject((v)->{
-				v.next();
-			});
-			SchemaElement root = j.root();
-			root.ifObjetGet("").ifPresentOrElse((t)->{
-				System.out.println(t);
-			}, ()->{
-				System.out.println("test");
-			});
+//			XJsonSchemaTypea j = XJsonSchemaTypea.create(d);
+//			Visitor visitor = j.newVisitor();
+//			visitor.ifObject((v)->{
+//				v.next();
+//			});
+//			SchemaElement root = j.root();
+//			root.ifObjetGet("").ifPresentOrElse((t)->{
+//				System.out.println(t);
+//			}, ()->{
+//				System.out.println("test");
+//			});
 		} catch (SAXException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

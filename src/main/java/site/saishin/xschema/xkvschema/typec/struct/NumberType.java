@@ -1,8 +1,8 @@
 package site.saishin.xschema.xkvschema.typec.struct;
 
-import site.saishin.xschema.xjsonschema.typea.SchemaElementType;
+import site.saishin.xschema.xkvschema.typec.SchemaElementType;
 
-class NumberType extends PrimitiveType {
+class NumberType extends BaseKvType {
 	float min;
 	float max;
 	@Override

@@ -3,7 +3,7 @@ package site.saishin.xschema.xjsonschema.typea.struct;
 import java.util.Map;
 import java.util.Optional;
 
-import site.saishin.xschema.xjsonschema.SchemaElement;
+import site.saishin.xschema.xjsonschema.typea.SchemaElement;
 import site.saishin.xschema.xjsonschema.typea.SchemaElementType;
 
 class RootType implements SchemaElement {

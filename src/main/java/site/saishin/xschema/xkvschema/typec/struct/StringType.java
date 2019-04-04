@@ -1,8 +1,8 @@
 package site.saishin.xschema.xkvschema.typec.struct;
 
-import site.saishin.xschema.xjsonschema.typea.SchemaElementType;
+import site.saishin.xschema.xkvschema.typec.SchemaElementType;
 
-class StringType extends PrimitiveType {
+class StringType extends BaseKvType {
 	int min;
 	int max;
 	@Override

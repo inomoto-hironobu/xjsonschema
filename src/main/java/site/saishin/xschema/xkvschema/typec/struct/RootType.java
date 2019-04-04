@@ -3,12 +3,12 @@ package site.saishin.xschema.xkvschema.typec.struct;
 import java.util.Map;
 import java.util.Optional;
 
-import site.saishin.xschema.xjsonschema.SchemaElement;
-import site.saishin.xschema.xjsonschema.typea.SchemaElementType;
+import site.saishin.xschema.xkvschema.typec.SchemaElement;
+import site.saishin.xschema.xkvschema.typec.SchemaElementType;
 
 class RootType implements SchemaElement {
 	String name;
-	Map<String, BaseJsonType> objects;
+	Map<String, BaseKvType> objects;
 	@Override
 	public SchemaElementType type() {
 		return SchemaElementType.ROOT;

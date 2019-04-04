@@ -42,7 +42,7 @@ public class OtherTest {
 	}
 	@Test
 	public void testJackson() {
-		InputStream json = Util.jsoncommon("/npm/package.json");
+		InputStream json = Util.json("/npm/package.json");
 		JsonFactory f = new JsonFactory();
 		f.disable(JsonFactory.Feature.CANONICALIZE_FIELD_NAMES);
 		try {

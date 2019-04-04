@@ -1,6 +1,6 @@
 package site.saishin.xschema.xjsonschema.typeb.struct;
 
-import site.saishin.xschema.xjsonschema.typea.SchemaElementType;
+import site.saishin.xschema.xjsonschema.typeb.SchemaElementType;
 
 class IntegerType extends PrimitiveType {
 	int min;

@@ -16,7 +16,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import site.saishin.xschema.Main;
-import site.saishin.xschema.xjsonschema.SchemaElement;
+import site.saishin.xschema.xjsonschema.typea.SchemaElement;
 import site.saishin.xschema.xjsonschema.typea.struct.XJsonSchemaTypea;
 import site.saishin.xschema.xjsonschema.typea.struct.XJsonSchemaTypea.Visitor;
 import xschema.Util;
@@ -67,8 +67,8 @@ public class TypeaTest {
 	@Test
 	public void simple() {
 		try {
-			assertTrue(Main.validate(Util.jsoncommon("/valid.json"), get("/simple/json.xml")));
-			assertFalse(Main.validate(Util.jsoncommon("/error.json"), get("/simple/json.xml")));
+			assertTrue(Main.validate(Util.json("/valid.json"), get("/simple/json.xml")));
+			assertFalse(Main.validate(Util.json("/error.json"), get("/simple/json.xml")));
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 			fail();

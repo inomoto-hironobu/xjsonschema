@@ -3,8 +3,8 @@ package site.saishin.xschema.xjsonschema.typeb.struct;
 import java.util.Map;
 import java.util.Optional;
 
-import site.saishin.xschema.xjsonschema.SchemaElement;
-import site.saishin.xschema.xjsonschema.typea.SchemaElementType;
+import site.saishin.xschema.xjsonschema.typeb.SchemaElementType;
+import site.saishin.xschema.xjsonschema.typeb.SchemaElement;
 
 class ObjectType extends BaseJsonType {
 	Map<String, BaseJsonType> objects;
