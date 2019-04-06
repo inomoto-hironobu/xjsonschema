@@ -1,0 +1,6 @@
+key-values
+key1=value1&key2=value2
+key1=value1&key2=value2&key3=value3
+key1=value1&key2=value2&nullable=&key4=value4
+key1=value1&key2=2
+key1=value1&key2=1.1

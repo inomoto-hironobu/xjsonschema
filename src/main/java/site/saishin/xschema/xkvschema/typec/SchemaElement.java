@@ -13,4 +13,7 @@ public interface SchemaElement {
 	default Optional<SchemaElement> ifObjetGet(String key) {
 		return Optional.empty();
 	}
+	default Optional<Boolean> nullable() {
+		return Optional.empty();
+	}
 }

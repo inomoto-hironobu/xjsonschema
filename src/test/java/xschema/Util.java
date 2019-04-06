@@ -3,9 +3,6 @@ package xschema;
 import java.io.InputStream;
 
 public class Util {
-	public static InputStream schema(String name) {
-		return Util.class.getResourceAsStream("/xchema" + name);
-	}
 	public static InputStream json(String name) {
 		return Util.class.getResourceAsStream("/xschema/xjsonschema" + name);
 	}

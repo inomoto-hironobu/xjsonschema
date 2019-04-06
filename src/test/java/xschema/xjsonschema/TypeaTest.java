@@ -3,22 +3,14 @@ package xschema.xjsonschema;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.io.InputStream;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import site.saishin.xschema.Main;
-import site.saishin.xschema.xjsonschema.typea.SchemaElement;
-import site.saishin.xschema.xjsonschema.typea.struct.XJsonSchemaTypea;
-import site.saishin.xschema.xjsonschema.typea.struct.XJsonSchemaTypea.Visitor;
 import xschema.Util;
 
 public class TypeaTest {
@@ -39,18 +31,13 @@ public class TypeaTest {
 	public void tearDown() throws Exception {
 	}
 
-
-	private InputStream get(String name) {
-		return this.getClass().getResourceAsStream("/xjsonschema/typea" + name);
-	}
-
 	@Test
 	public void complex() {
 		try {
-			assertTrue(Main.validate(get("/complex/valid.json"), get("/complex/json.xml")));
-			assertTrue(Main.validate(get("/complex/valid2.json"), get("/complex/json.xml")));
-			assertFalse(Main.validate(get("/complex/error.json"), get("/complex/json.xml")));
-			assertFalse(Main.validate(get("/complex/error2.json"), get("/complex/json.xml")));
+			assertTrue(Main.validateByTypea(Util.typea("/complex/valid.json"), Util.typea("/complex/json.xml")));
+			assertTrue(Main.validateByTypea(Util.typea("/complex/valid2.json"), Util.typea("/complex/json.xml")));
+			assertFalse(Main.validateByTypea(Util.typea("/complex/error.json"), Util.typea("/complex/json.xml")));
+			assertFalse(Main.validateByTypea(Util.typea("/complex/error2.json"), Util.typea("/complex/json.xml")));
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 			fail();
@@ -59,7 +46,7 @@ public class TypeaTest {
 	@Test
 	public void npm() {
 		try {
-			assertTrue(Main.validate(get("/npm/package.json"), get("/npm/json.xml")));
+			assertTrue(Main.validateByTypea(Util.typea("/npm/package.json"), Util.typea("/npm/json.xml")));
 		} catch (SAXException | IOException e) {
 			fail();
 		}
@@ -67,8 +54,8 @@ public class TypeaTest {
 	@Test
 	public void simple() {
 		try {
-			assertTrue(Main.validate(Util.json("/valid.json"), get("/simple/json.xml")));
-			assertFalse(Main.validate(Util.json("/error.json"), get("/simple/json.xml")));
+			assertTrue(Main.validateByTypea(Util.json("/valid.json"), Util.typea("/simple/json.xml")));
+			assertFalse(Main.validateByTypea(Util.json("/error.json"), Util.typea("/simple/json.xml")));
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 			fail();
@@ -76,46 +63,10 @@ public class TypeaTest {
 	}
 	@Test
 	public void test() {
-		Document d;
-		try {
-			d = Main.getInstance().documentBuilder().parse(get("/simple/json.xml"));
-			XJsonSchemaTypea j = XJsonSchemaTypea.create(d);
-			j.dump();
-		} catch (SAXException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		
 	}
 	@Test
 	public void testVisitor() {
-		Document d;
-		try {
-			d = Main.getInstance().documentBuilder().parse(get("/simple/json.xml"));
-			XJsonSchemaTypea j = XJsonSchemaTypea.create(d);
-			Visitor visitor = j.newVisitor();
-			visitor.ifObject((v)->{
-				v.next();
-			});
-			SchemaElement root = j.root();
-			root.ifObjetGet("").ifPresentOrElse((t)->{
-				System.out.println(t);
-			}, ()->{
-				System.out.println("test");
-			});
-		} catch (SAXException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		fail("Not yet implemented");
+		
 	}
 }

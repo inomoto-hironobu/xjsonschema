@@ -3,8 +3,6 @@ package site.saishin.xschema.xkvschema.typec.struct;
 import java.util.Optional;
 
 import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
 import site.saishin.xschema.xkvschema.typec.SchemaElement;
 
 abstract class BaseKvType implements SchemaElement {
@@ -22,12 +20,11 @@ abstract class BaseKvType implements SchemaElement {
 		if(attrs.getNamedItem("required") != null) {
 			required = attrs.getNamedItem("required").getNodeValue().equals("true");
 		}
-		Node defaultAttr = attrs.getNamedItem("default");
-		if(defaultAttr != null) {
-			defaultValue = defaultAttr.getNodeValue();
+		if(attrs.getNamedItem("default") != null) {
+			defaultValue = attrs.getNamedItem("default").getNodeValue();
 		}
 	}
-
+	@Override
 	public Optional<Boolean> nullable() {
 		return Optional.of(nullable);
 	}

@@ -23,7 +23,7 @@
 	</xs:attributeGroup>
 	<xs:element name="key-value-schema">
 		<xs:complexType>
-			<xs:choice>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:element name="boolean">
 					<xs:complexType>
 						<xs:attribute name="default" type="xs:boolean" />

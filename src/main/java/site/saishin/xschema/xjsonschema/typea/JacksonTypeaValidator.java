@@ -1,4 +1,4 @@
-package site.saishin.xschema.xjsonschema;
+package site.saishin.xschema.xjsonschema.typea;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,15 +11,14 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
-import site.saishin.xschema.xjsonschema.typea.SchemaElementType;
 import site.saishin.xschema.xjsonschema.typea.struct.XJsonSchemaTypea;
 import site.saishin.xschema.xjsonschema.typea.struct.XJsonSchemaTypea.Visitor;
 
-public class JacksonValidator {
-	private static final Logger logger = LoggerFactory.getLogger(JacksonValidator.class); 
+public class JacksonTypeaValidator {
+	private static final Logger logger = LoggerFactory.getLogger(JacksonTypeaValidator.class); 
 	final XJsonSchemaTypea xJsonSchema;
 	JsonParser parser;
-	public JacksonValidator(XJsonSchemaTypea jsonSchema) {
+	public JacksonTypeaValidator(XJsonSchemaTypea jsonSchema) {
 		xJsonSchema = jsonSchema;
 	}
 

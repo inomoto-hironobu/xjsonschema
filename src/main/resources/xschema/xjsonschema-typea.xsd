@@ -3,7 +3,7 @@
 	version="1.1" elementFormDefault="qualified"
 	xmlns:tns="https://www.json.org/typea" targetNamespace="https://www.json.org/typea">
 	<xs:annotation>
-		<xs:documentation>シンプルさを目指したJSONのスキーマ</xs:documentation>
+		<xs:documentation>シンプルさを目指したスキーマの基盤</xs:documentation>
 	</xs:annotation>
 	<xs:simpleType name="data.type">
 		<xs:restriction base="xs:string">
