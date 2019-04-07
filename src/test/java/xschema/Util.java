@@ -15,4 +15,7 @@ public class Util {
 	public static InputStream kv(String name) {
 		return Util.class.getResourceAsStream("/xschema/xkvschema" + name);
 	}
+	public static InputStream yaml(String name) {
+		return Util.class.getResourceAsStream("/xchema/xyamlschema" + name);
+	}
 }

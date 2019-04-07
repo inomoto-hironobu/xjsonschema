@@ -1,0 +1,9 @@
+#
+#
+- name:  Hoge
+  email: hoge@mail.com
+- name:  Foo
+  email: foo@mail.net
+- name:  Bar
+  email: bar@mail.org
+

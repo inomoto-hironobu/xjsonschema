@@ -1,0 +1,14 @@
+A: aaa
+B:
+  B1: bbb1
+  B2: bbb2
+C: ccc
+D:
+  - aaa
+    -
+     - b1
+     - b2
+     -
+       - b3.1
+       - b3.2
+  - ccc

@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	version="1.1" elementFormDefault="qualified"
-	xmlns:tns="https://www.json.org/typea"
-	targetNamespace="https://www.json.org/typea">
+	xmlns:tns="https://yaml.org/typed" targetNamespace="https://yaml.org/typed">
 	<xs:annotation>
-		<xs:documentation>シンプルさを目指したスキーマの基盤</xs:documentation>
+		<xs:documentation>シンプルさを目指したJSONのスキーマ</xs:documentation>
 	</xs:annotation>
-	<xs:include schemaLocation="xjsonschema.xsd"/>
+	<xs:simpleType name="data.type">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="boolean" />
+			<xs:enumeration value="integer" />
+			<xs:enumeration value="number" />
+			<xs:enumeration value="string" />
+			<xs:enumeration value="array" />
+			<xs:enumeration value="object" />
+			<xs:enumeration value="date"/>
+			<xs:enumeration value="timestamp"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:attributeGroup name="common.attr">
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="required" type="xs:boolean"
@@ -14,12 +24,6 @@
 		<xs:attribute name="nullable" type="xs:boolean"
 			default="false" />
 	</xs:attributeGroup>
-	<xs:group name="type.ref.group">
-		<xs:choice>
-			<xs:element name="ref" type="xs:IDREF"></xs:element>
-			<xs:element name="base" type="tns:data.type"></xs:element>
-		</xs:choice>
-	</xs:group>
 	<xs:group name="object.group">
 		<xs:choice>
 			<xs:element name="boolean">
@@ -46,9 +50,21 @@
 					<xs:attributeGroup ref="tns:common.attr" />
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="date">
+				<xs:complexType>
+					<xs:attribute name="default" type="xs:date" />
+					<xs:attributeGroup ref="tns:common.attr" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="timestamp">
+				<xs:complexType>
+					<xs:attribute name="default" type="xs:dateTime" />
+					<xs:attributeGroup ref="tns:common.attr" />
+				</xs:complexType>
+			</xs:element>
 			<xs:element name="array">
 				<xs:complexType>
-					<xs:group ref="tns:type.ref.group" minOccurs="0" />
+					<xs:attribute name="type" type="tns:data.type"></xs:attribute>
 					<xs:attributeGroup ref="tns:common.attr" />
 				</xs:complexType>
 			</xs:element>
@@ -66,13 +82,13 @@
 			</xs:element>
 			<xs:element name="typed-object">
 				<xs:complexType>
-					<xs:group ref="tns:type.ref.group" minOccurs="0" />
+					<xs:attribute name="type" type="tns:data.type"></xs:attribute>
 					<xs:attributeGroup ref="tns:common.attr" />
 				</xs:complexType>
 			</xs:element>
 		</xs:choice>
 	</xs:group>
-	<xs:element name="json-schema">
+	<xs:element name="yaml-schema">
 		<xs:complexType>
 			<xs:choice>
 				<xs:element name="type">
@@ -80,25 +96,11 @@
 						<xs:attribute name="value" type="tns:data.type"/>
 					</xs:complexType>
 				</xs:element>
-				<xs:choice minOccurs="0" maxOccurs="unbounded">
-					<xs:group ref="tns:object.group" />
-					<xs:element name="def">
-						<xs:complexType>
-							<xs:choice minOccurs="0" maxOccurs="unbounded">
-								<xs:group ref="tns:object.group" />
-							</xs:choice>
-							<xs:attribute name="id" type="xs:ID"></xs:attribute>
-						</xs:complexType>
-						<xs:unique name="def.restriction">
-							<xs:selector xpath="tns:*" />
-							<xs:field xpath="@name" />
-						</xs:unique>
-					</xs:element>
-				</xs:choice>
+				<xs:group ref="tns:object.group" maxOccurs="unbounded"/>
 			</xs:choice>
-			<xs:attribute name="name" />
+			<xs:attribute name="name"/>
 		</xs:complexType>
-		<xs:unique name="json-schema.restriction">
+		<xs:unique name="yaml-schema.restriction">
 			<xs:selector xpath="tns:*" />
 			<xs:field xpath="@name" />
 		</xs:unique>

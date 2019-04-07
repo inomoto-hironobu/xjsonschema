@@ -5,16 +5,7 @@
 	<xs:annotation>
 		<xs:documentation>シンプルさを目指したJSONのスキーマ</xs:documentation>
 	</xs:annotation>
-	<xs:simpleType name="data.type">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="boolean" />
-			<xs:enumeration value="integer" />
-			<xs:enumeration value="number" />
-			<xs:enumeration value="string" />
-			<xs:enumeration value="array" />
-			<xs:enumeration value="object" />
-		</xs:restriction>
-	</xs:simpleType>
+	<xs:include schemaLocation="xjsonschema.xsd"/>
 	<xs:attributeGroup name="common.attr">
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="required" type="xs:boolean"
@@ -76,8 +67,15 @@
 	</xs:group>
 	<xs:element name="json-schema">
 		<xs:complexType>
-			<xs:group ref="tns:object.group" maxOccurs="unbounded"/>
-			<xs:attribute name="name" />
+			<xs:choice>
+				<xs:element name="type">
+					<xs:complexType>
+						<xs:attribute name="value" type="tns:data.type"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:group ref="tns:object.group" maxOccurs="unbounded"/>
+			</xs:choice>
+			<xs:attribute name="name"/>
 		</xs:complexType>
 		<xs:unique name="json-schema.restriction">
 			<xs:selector xpath="tns:*" />
