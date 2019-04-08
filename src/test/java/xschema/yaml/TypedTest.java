@@ -1,4 +1,4 @@
-package xschema.xyamlschema;
+package xschema.yaml;
 
 import static org.junit.Assert.*;
 

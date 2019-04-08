@@ -1,4 +1,4 @@
-package xschema.xjsonschema;
+package xschema.json;
 
 import static org.junit.Assert.*;
 

@@ -1,4 +1,4 @@
-package xschema.xkvschema;
+package xschema.kv;
 
 import static org.junit.Assert.fail;
 
