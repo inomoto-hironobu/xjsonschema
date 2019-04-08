@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -11,6 +12,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.SAXException;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import site.saishin.xschema.Main;
 import xschema.Util;
@@ -54,11 +59,12 @@ public class TypecTest {
 	@Test
 	public void simple() {
 		try {
-			InputStream schema = Util.kv("/simple/json.xml");
-			assertTrue(Main.validateByTypea(Util.kv("/simple/valid.json"), schema));
-			schema = Util.kv("/simple/json.xml");
-			assertFalse(Main.validateByTypea(Util.kv("/simple/error.json"), schema));
-		} catch (SAXException | IOException e) {
+			InputStream schema = Util.schema("/kv.json");
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, Map<String, String>> map = mapper.readValue(schema, new TypeReference<Map<String,Map<String,String>>>() {});
+			System.out.println(map);
+			
+		} catch (IOException e) {
 			e.printStackTrace();
 			fail();
 		}		

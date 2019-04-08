@@ -4,62 +4,69 @@
 	xmlns:tns="https://www.w3.org/typec"
 	targetNamespace="https://www.w3.org/typec">
 	<xs:annotation>
-		<xs:documentation>シンプルさを目指したJSONのスキーマ</xs:documentation>
+		<xs:documentation>シンプルさを目指したKey-Valueのスキーマ</xs:documentation>
 	</xs:annotation>
-	<xs:simpleType name="data.type">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="boolean" />
-			<xs:enumeration value="integer" />
-			<xs:enumeration value="number" />
-			<xs:enumeration value="string" />
-		</xs:restriction>
-	</xs:simpleType>
 	<xs:attributeGroup name="common.attr">
-		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="name" type="xs:ID" use="required" />
 		<xs:attribute name="required" type="xs:boolean"
 			default="false" />
 		<xs:attribute name="nullable" type="xs:boolean"
 			default="false" />
 	</xs:attributeGroup>
+	<xs:group name="root.content.group">
+		<xs:choice>
+			<xs:element name="boolean">
+				<xs:complexType>
+					<xs:attribute name="default" type="xs:boolean" />
+					<xs:attributeGroup ref="tns:common.attr" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="integer">
+				<xs:complexType>
+					<xs:attribute name="min" type="xs:integer" />
+					<xs:attribute name="max" type="xs:integer" />
+					<xs:attribute name="default" type="xs:integer" />
+					<xs:attributeGroup ref="tns:common.attr" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="decimal">
+				<xs:complexType>
+					<xs:attribute name="min" type="xs:decimal" />
+					<xs:attribute name="max" type="xs:decimal" />
+					<xs:attribute name="default" type="xs:decimal" />
+					<xs:attributeGroup ref="tns:common.attr" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="string">
+				<xs:complexType>
+					<xs:attribute name="min" type="xs:positiveInteger" />
+					<xs:attribute name="max" type="xs:positiveInteger" />
+					<xs:attribute name="default" type="xs:string" />
+					<xs:attributeGroup ref="tns:common.attr" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="mail-address">
+				<xs:complexType>
+					<xs:attribute name="min" type="xs:positiveInteger" />
+					<xs:attribute name="max" type="xs:positiveInteger" />
+					<xs:attribute name="default" type="xs:string" />
+					<xs:attributeGroup ref="tns:common.attr" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="url">
+				<xs:complexType>
+					<xs:attribute name="min" type="xs:positiveInteger" />
+					<xs:attribute name="max" type="xs:positiveInteger" />
+					<xs:attribute name="default" type="xs:string" />
+					<xs:attributeGroup ref="tns:common.attr" />
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:group>
 	<xs:element name="key-value-schema">
 		<xs:complexType>
-			<xs:choice minOccurs="0" maxOccurs="unbounded">
-				<xs:element name="boolean">
-					<xs:complexType>
-						<xs:attribute name="default" type="xs:boolean" />
-						<xs:attributeGroup ref="tns:common.attr" />
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="string">
-					<xs:complexType>
-						<xs:attribute name="min" type="xs:positiveInteger" />
-						<xs:attribute name="max" type="xs:positiveInteger" />
-						<xs:attribute name="default" type="xs:string" />
-						<xs:attributeGroup ref="tns:common.attr" />
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="integer">
-					<xs:complexType>
-						<xs:attribute name="min" type="xs:integer" />
-						<xs:attribute name="max" type="xs:integer" />
-						<xs:attribute name="default" type="xs:integer" />
-						<xs:attributeGroup ref="tns:common.attr" />
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="number">
-					<xs:complexType>
-						<xs:attribute name="min" type="xs:float" />
-						<xs:attribute name="max" type="xs:float" />
-						<xs:attribute name="default" type="xs:float" />
-						<xs:attributeGroup ref="tns:common.attr" />
-					</xs:complexType>
-				</xs:element>
-			</xs:choice>
-			<xs:attribute name="name" />
+			<xs:group ref="tns:root.content.group" minOccurs="0" maxOccurs="unbounded" />
+			<xs:attribute name="name" type="xs:string" />
 		</xs:complexType>
-		<xs:unique name="key-value-schema.restriction">
-			<xs:selector xpath="tns:*" />
-			<xs:field xpath="@name" />
-		</xs:unique>
 	</xs:element>
 </xs:schema>

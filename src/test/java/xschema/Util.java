@@ -18,4 +18,7 @@ public class Util {
 	public static InputStream yaml(String name) {
 		return Util.class.getResourceAsStream("/xchema/xyamlschema" + name);
 	}
+	public static InputStream schema(String name) {
+		return Util.class.getResourceAsStream("/xschema" + name);
+	}
 }

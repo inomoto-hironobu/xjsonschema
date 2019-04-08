@@ -14,9 +14,9 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import site.saishin.xschema.xjsonschema.typea.JacksonTypeaValidator;
-import site.saishin.xschema.xjsonschema.typea.struct.XJsonSchemaTypea;
-import site.saishin.xschema.xkvschema.typec.struct.XKvSchemaTypec;
+import site.saishin.xschema.json.typea.JacksonTypeaValidator;
+import site.saishin.xschema.json.typea.struct.XJsonSchemaTypea;
+import site.saishin.xschema.kv.typec.struct.XKvSchemaTypec;
 
 /**
  * 全てのメソッドはスレッドセーフではありません

@@ -5,7 +5,6 @@
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="boolean" />
 			<xs:enumeration value="integer" />
-			<xs:enumeration value="number" />
 			<xs:enumeration value="string" />
 		</xs:restriction>
 	</xs:simpleType>
@@ -24,14 +23,6 @@
 					<xs:attributeGroup ref="common.attr" />
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="string">
-				<xs:complexType>
-					<xs:attribute name="min" type="xs:positiveInteger" />
-					<xs:attribute name="max" type="xs:positiveInteger" />
-					<xs:attribute name="default" type="xs:string" />
-					<xs:attributeGroup ref="common.attr" />
-				</xs:complexType>
-			</xs:element>
 			<xs:element name="integer">
 				<xs:complexType>
 					<xs:attribute name="min" type="xs:integer" />
@@ -40,11 +31,11 @@
 					<xs:attributeGroup ref="common.attr" />
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="number">
+			<xs:element name="string">
 				<xs:complexType>
-					<xs:attribute name="min" type="xs:float" />
-					<xs:attribute name="max" type="xs:float" />
-					<xs:attribute name="default" type="xs:float" />
+					<xs:attribute name="min" type="xs:positiveInteger" />
+					<xs:attribute name="max" type="xs:positiveInteger" />
+					<xs:attribute name="default" type="xs:string" />
 					<xs:attributeGroup ref="common.attr" />
 				</xs:complexType>
 			</xs:element>
