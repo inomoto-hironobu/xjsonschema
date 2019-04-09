@@ -4,7 +4,9 @@
 	<string name="version" />
 	<string name="description" />
 	<string name="main" />
-	<typed-object name="scripts" type="string"/>
+	<object name="scripts">
+		<type value="string"/>
+	</object>
 	<object name="repository">
 		<string name="type" />
 		<string name="url" />
@@ -14,6 +16,10 @@
 	<object name="bugs">
 		<string name="url" />
 	</object>
-	<typed-object name="devDependencies" type="string"/>
-	<typed-object name="dependencies" type="string"/>
+	<object name="devDependencies">
+		<type value="string"/>
+	</object>
+	<object name="dependencies">
+		<type value="string"/>
+	</object>
 </json-schema>

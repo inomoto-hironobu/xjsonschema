@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<json-schema name="simple" xmlns="https://www.json.org/typeb">
-	<typed-object name="test" type="object"/>
-	<typed-object name="simple" type="object"/>
-	<typed-object name="complex" type="object"/>
-</json-schema>

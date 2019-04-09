@@ -11,5 +11,7 @@
 	<number name="number" />
 	<string name="string" />
 	<boolean name="boolean" default="true"></boolean>
-	<typed-object name="tobect" type="array"/>
+	<object name="tobect">
+		<type value="array"/>
+	</object>
 </json-schema>

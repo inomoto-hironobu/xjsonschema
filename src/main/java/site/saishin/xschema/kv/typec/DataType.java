@@ -17,6 +17,12 @@ public enum DataType {
 		case "string":
 			type = STRING;
 			break;
+		case "url":
+			type = URL;
+			break;
+		case "mail-address":
+			type = MAIL_ADDRESS;
+			break;
 		default:
 			throw new IllegalArgumentException(name);
 		}

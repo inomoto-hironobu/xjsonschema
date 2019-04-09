@@ -67,7 +67,7 @@ public class TypecTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail();
-		}		
+		}
 	}
 	@Test
 	public void test() {

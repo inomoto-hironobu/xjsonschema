@@ -8,5 +8,7 @@
 			<array name="array" type="number"/>
 		</object>
 	</object>
-	<typed-object name="stringObject" required="true" type="string"/>
+	<object name="stringObject">
+		<type value="string"/>
+	</object>
 </json-schema>
