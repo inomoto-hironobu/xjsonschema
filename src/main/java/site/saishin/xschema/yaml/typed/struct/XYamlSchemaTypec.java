@@ -70,7 +70,7 @@ public class XYamlSchemaTypec {
 				jstring.set(attrs);
 				current.put(jstring.name, jstring);
 				break;
-			case NUMBER:
+			case DECIMAL:
 				FloatType jnumber = new FloatType();
 				jnumber.set(attrs);
 				current.put(jnumber.name, jnumber);

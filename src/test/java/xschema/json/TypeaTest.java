@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import site.saishin.xschema.Main;
+import site.saishin.xschema.XSchemaUtil;
 import xschema.Util;
 
 public class TypeaTest {
@@ -34,11 +35,11 @@ public class TypeaTest {
 	@Test
 	public void complex() {
 		try {
-			assertTrue(Main.validateByTypea(Util.typea("/complex/valid.json"), Util.typea("/complex/json.xml")));
-			assertTrue(Main.validateByTypea(Util.typea("/complex/valid2.json"), Util.typea("/complex/json.xml")));
-			assertFalse(Main.validateByTypea(Util.typea("/complex/error.json"), Util.typea("/complex/json.xml")));
-			assertFalse(Main.validateByTypea(Util.typea("/complex/error2.json"), Util.typea("/complex/json.xml")));
-		} catch (SAXException | IOException e) {
+			assertTrue(XSchemaUtil.validateByTypea(Util.typea("/complex/valid.json"), Util.typea("/complex/json.xml")));
+			assertTrue(XSchemaUtil.validateByTypea(Util.typea("/complex/valid2.json"), Util.typea("/complex/json.xml")));
+			assertFalse(XSchemaUtil.validateByTypea(Util.typea("/complex/error.json"), Util.typea("/complex/json.xml")));
+			assertFalse(XSchemaUtil.validateByTypea(Util.typea("/complex/error2.json"), Util.typea("/complex/json.xml")));
+		} catch (SAXException e) {
 			e.printStackTrace();
 			fail();
 		}	
@@ -46,17 +47,17 @@ public class TypeaTest {
 	@Test
 	public void npm() {
 		try {
-			assertTrue(Main.validateByTypea(Util.typea("/npm/package.json"), Util.typea("/npm/json.xml")));
-		} catch (SAXException | IOException e) {
+			assertTrue(XSchemaUtil.validateByTypea(Util.typea("/npm/package.json"), Util.typea("/npm/json.xml")));
+		} catch (SAXException e) {
 			fail();
 		}
 	}
 	@Test
 	public void simple() {
 		try {
-			assertTrue(Main.validateByTypea(Util.json("/valid.json"), Util.typea("/simple/json.xml")));
-			assertFalse(Main.validateByTypea(Util.json("/error.json"), Util.typea("/simple/json.xml")));
-		} catch (SAXException | IOException e) {
+			assertTrue(XSchemaUtil.validateByTypea(Util.json("/valid.json"), Util.typea("/simple/json.xml")));
+			assertFalse(XSchemaUtil.validateByTypea(Util.json("/error.json"), Util.typea("/simple/json.xml")));
+		} catch (SAXException e) {
 			e.printStackTrace();
 			fail();
 		}		

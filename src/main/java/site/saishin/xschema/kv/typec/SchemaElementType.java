@@ -1,7 +1,7 @@
 package site.saishin.xschema.kv.typec;
 
 public enum SchemaElementType {
-	BOOLEAN,INTEGER,NUMBER,STRING,ROOT,NONE;
+	BOOLEAN,INTEGER,DECIMAL,STRING,ROOT,URL,MAIL_ADDRESS,NONE;
 	
 	private SchemaElementType() {
 
@@ -13,7 +13,7 @@ public enum SchemaElementType {
 			type = INTEGER;
 			break;
 		case "number":
-			type = NUMBER;
+			type = DECIMAL;
 			break;
 		case "boolean":
 			type = BOOLEAN;

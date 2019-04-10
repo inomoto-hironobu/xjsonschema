@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<key-value-schema xmlns="https://www.w3.org/typec">
+	<string name="name" nullable="true"/>
+	<string name="email" nullable="true"/>
+	<string name="url" nullable="true"/>
+	<string name="content" required="true" min="10" max="500"/>
+</key-value-schema>

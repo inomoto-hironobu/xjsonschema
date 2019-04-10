@@ -8,7 +8,7 @@ import site.saishin.xschema.kv.typec.SchemaElementType;
 
 class RootType implements SchemaElement {
 	String name;
-	Map<String, BaseKvType> map;
+	Map<String, BaseKvType<?>> map;
 	@Override
 	public SchemaElementType type() {
 		return SchemaElementType.ROOT;

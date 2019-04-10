@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import site.saishin.xschema.Main;
+import site.saishin.xschema.XSchemaUtil;
 
 public class MainTest {
 
@@ -31,10 +32,10 @@ public class MainTest {
 
 	@Test
 	public void testSchemaLoading() {
-		assertNotNull(Main.createSchema(Main.class.getResourceAsStream("/xschema/xjsonschema-typea.xsd")));
-		assertNull(Main.createSchema(Main.class.getResourceAsStream("/xschema/null.xsd")));
-		assertNotNull(Main.typeaSchema());
-		assertNotNull(Main.typeaSchema());
-		assertNotNull(Main.typeaSchema());
+		assertNotNull(XSchemaUtil.createSchema(XSchemaUtil.schema("/xjsonschema-typea.xsd")));
+		assertNull(XSchemaUtil.createSchema(XSchemaUtil.schema("/null.xsd")));
+		assertNotNull(XSchemaUtil.typeaSchema());
+		assertNotNull(XSchemaUtil.typeaSchema());
+		assertNotNull(XSchemaUtil.typeaSchema());
 	}
 }

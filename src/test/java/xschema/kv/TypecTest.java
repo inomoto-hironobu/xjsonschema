@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import site.saishin.xschema.Main;
+import site.saishin.xschema.XSchemaUtil;
 import xschema.Util;
 
 public class TypecTest {
@@ -37,33 +38,21 @@ public class TypecTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-	
-	@Test
-	public void complex() {
-		try {
-			assertFalse(Main.validateByTypea(Util.kv("/complex/error2.json"), Util.kv("/complex/json.xml")));
-		} catch (SAXException | IOException e) {
-			e.printStackTrace();
-			fail();
-		}	
-	}
-	@Test
-	public void npm() {
-		try {
-			InputStream schema = Util.kv("/npm/json.xml");
-			assertTrue(Main.validateByTypea(Util.kv("/npm/package.json"), schema));
-		} catch (SAXException | IOException e) {
-			fail();
-		}
-	}
 	@Test
 	public void simple() {
 		try {
-			InputStream schema = Util.schema("/kv.json");
+			InputStream schema = Util.schema("/valid-kv.json");
 			ObjectMapper mapper = new ObjectMapper();
 			Map<String, Map<String, String>> map = mapper.readValue(schema, new TypeReference<Map<String,Map<String,String>>>() {});
 			System.out.println(map);
-			
+			map.forEach((s,m)->{
+				try {
+					XSchemaUtil.kvSchemaTypec(Util.kv(s + "/comment.xml"));
+				} catch (IOException | SAXException e) {
+					e.printStackTrace();
+					fail(e.getMessage());
+				}
+			});
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail();

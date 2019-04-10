@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<key-value-schema xmlns="https://www.w3.org/typec">
-	<string name="string"/>
-	<integer name="integer"/>
-	<decimal name="decimal"/>
-</key-value-schema>

@@ -23,9 +23,9 @@
 			</xs:element>
 			<xs:element name="integer">
 				<xs:complexType>
-					<xs:attribute name="min" type="xs:integer" />
-					<xs:attribute name="max" type="xs:integer" />
-					<xs:attribute name="default" type="xs:integer" />
+					<xs:attribute name="min" type="xs:long" />
+					<xs:attribute name="max" type="xs:long" />
+					<xs:attribute name="default" type="xs:long" />
 					<xs:attributeGroup ref="tns:common.attr" />
 				</xs:complexType>
 			</xs:element>
@@ -49,7 +49,7 @@
 				<xs:complexType>
 					<xs:attribute name="min" type="xs:positiveInteger" />
 					<xs:attribute name="max" type="xs:positiveInteger" />
-					<xs:attribute name="default" type="xs:string" />
+					<xs:attribute name="default" type="xs:anyURI" />
 					<xs:attributeGroup ref="tns:common.attr" />
 				</xs:complexType>
 			</xs:element>
@@ -57,7 +57,7 @@
 				<xs:complexType>
 					<xs:attribute name="min" type="xs:positiveInteger" />
 					<xs:attribute name="max" type="xs:positiveInteger" />
-					<xs:attribute name="default" type="xs:string" />
+					<xs:attribute name="default" type="xs:anyURI" />
 					<xs:attributeGroup ref="tns:common.attr" />
 				</xs:complexType>
 			</xs:element>
