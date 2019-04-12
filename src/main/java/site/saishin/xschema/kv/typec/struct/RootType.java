@@ -1,20 +1,17 @@
 package site.saishin.xschema.kv.typec.struct;
 
+import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 
+import site.saishin.xschema.kv.typec.Root;
 import site.saishin.xschema.kv.typec.SchemaElement;
-import site.saishin.xschema.kv.typec.SchemaElementType;
 
-class RootType implements SchemaElement {
+class RootType implements Root {
 	String name;
 	Map<String, BaseKvType<?>> map;
 	@Override
-	public SchemaElementType type() {
-		return SchemaElementType.ROOT;
+	public Map<String, SchemaElement> getMap() {
+		return Collections.unmodifiableMap(map);
 	}
-	@Override
-	public Optional<String> getName() {
-		return Optional.ofNullable(name);
-	}
+
 }

@@ -1,48 +1,39 @@
 package site.saishin.xschema.kv.typec.struct;
 
+import static site.saishin.domhelper.DomUtil.pullAttrValue;
+import static site.saishin.xschema.XSchemaConstants.DEFAULT;
+import static site.saishin.xschema.XSchemaConstants.MAX;
+import static site.saishin.xschema.XSchemaConstants.MIN;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
+import site.saishin.domhelper.DomUtil;
 import site.saishin.xschema.kv.typec.DataType;
-import site.saishin.xschema.kv.typec.SchemaElement;
-import site.saishin.xschema.kv.typec.SchemaElementType;
+import site.saishin.xschema.kv.typec.Root;
 
 public class XKvSchemaTypec {
 
 	static final Logger logger = LoggerFactory.getLogger(XKvSchemaTypec.class);
-	final RootType kvSchema;
-	final static String MIN = "min";
-	final static String MAX = "max";
-	final static String DEFAULT = "default";
+	final RootType root;
 	
 	private XKvSchemaTypec(Builder builder) {
-		this.kvSchema = builder.root;
+		this.root = builder.root;
 	}
 
 	private XKvSchemaTypec(XKvSchemaTypec base) {
-		this.kvSchema = base.kvSchema;
+		this.root = base.root;
 	}
 
-	public void dump() {
-		kvSchema.map.forEach((s, t) -> {
-			System.out.println(s);
-			
-		});
-	}
-
-	public SchemaElement root() {
-		return kvSchema;
+	public Root root() {
+		return root;
 	}
 
 	public static XKvSchemaTypec from(XKvSchemaTypec value) {
@@ -56,7 +47,7 @@ public class XKvSchemaTypec {
 		RootType root;
 		Document document;
 		NamedNodeMap attrs;
-		
+		Element target;
 		Builder document(Document value) {
 			Objects.requireNonNull(value);
 			document = value;
@@ -67,56 +58,48 @@ public class XKvSchemaTypec {
 			root = new RootType();
 			root.map = new HashMap<String, BaseKvType<?>>();
 			Element rootElement = document.getDocumentElement();
+			DomUtil.execElemChildren(rootElement, e -> {
+				element(e);
+			});
 			root.name = rootElement.getAttribute("name");
-			NodeList children = rootElement.getChildNodes();
-			for (int i = 0; i < children.getLength(); i++) {
-				children.item(i).getNodeType();
-				if(children.item(i).getNodeType() == Node.ELEMENT_NODE) {
-					element((Element) children.item(i));
-				}
-			}
 			return new XKvSchemaTypec(this);
 		}
 
 		private void set(BaseKvType<?> type) {
-			pre("name").ifPresent(s -> type.name = s);
-			pre("nullable").ifPresent(s -> type.nullable = Boolean.parseBoolean(s));
-			pre("required").ifPresent(s -> type.required = Boolean.parseBoolean(s));
+			pullAttrValue(target, "name").ifPresent(v -> type.name = v);
+			pullAttrValue(target, "nullable").ifPresent(v -> type.nullable = Boolean.parseBoolean(v));
+			pullAttrValue(target, "required").ifPresent(v -> type.required = Boolean.parseBoolean(v));
 			root.map.put(type.name, type);
-		}
-		private Optional<String> pre(String name) {
-			if(attrs.getNamedItem(name) != null) {
-				return Optional.of(attrs.getNamedItem(name).getNodeValue());
-			}
-			return Optional.empty();
 		}
 		
 		private void element(Element elem) {
-			attrs = elem.getAttributes();
+			target = elem;
 			switch (DataType.from(elem.getNodeName())) {
-			case STRING:
-				StringType jstring = new StringType();
-				pre("default").ifPresent(s -> jstring.defaultValue = s);
-				set(jstring);
-				break;
-			case DECIMAL:
-				DecimalType jnumber = new DecimalType();
-				pre("default").ifPresent(s -> jnumber.defaultValue = new BigDecimal(s));
-				pre(MIN).ifPresent(s -> jnumber.min = new BigDecimal(s));
-				pre(MAX).ifPresent(s -> jnumber.max = new BigDecimal(s));
-				set(jnumber);
+			case BOOLEAN:
+				BooleanType jboolean = new BooleanType();
+				pullAttrValue(elem, DEFAULT).ifPresent(s -> jboolean.defaultValue = Boolean.parseBoolean(s));
+				set(jboolean);
 				break;
 			case INTEGER:
 				IntegerType jinteger = new IntegerType();
-				pre(DEFAULT).ifPresent(s -> jinteger.defaultValue = Long.parseLong(s));
-				pre(MIN).ifPresent(s -> jinteger.min = Long.parseLong(s));
-				pre(MAX).ifPresent(s -> jinteger.max = Long.parseLong(s));
+				pullAttrValue(elem, DEFAULT).ifPresent(s -> jinteger.defaultValue = Long.parseLong(s));
+				pullAttrValue(elem, MIN).ifPresent(s -> jinteger.min = Long.parseLong(s));
+				pullAttrValue(elem, MAX).ifPresent(s -> jinteger.max = Long.parseLong(s));
 				set(jinteger);
 				break;
-			case BOOLEAN:
-				BooleanType jboolean = new BooleanType();
-				pre(DEFAULT).ifPresent(s -> jboolean.defaultValue = Boolean.parseBoolean(s));
-				set(jboolean);
+			case DECIMAL:
+				DecimalType jnumber = new DecimalType();
+				pullAttrValue(elem, DEFAULT).ifPresent(s -> jnumber.defaultValue = new BigDecimal(s));
+				pullAttrValue(elem, MIN).ifPresent(s -> jnumber.min = new BigDecimal(s));
+				pullAttrValue(elem, MAX).ifPresent(s -> jnumber.max = new BigDecimal(s));
+				set(jnumber);
+				break;
+			case STRING:
+				StringType jstring = new StringType();
+				pullAttrValue(elem, DEFAULT).ifPresent(s -> jstring.defaultValue = s);
+				pullAttrValue(elem, MIN).ifPresent(s -> jstring.min = Integer.parseInt(s));
+				pullAttrValue(elem, MAX).ifPresent(s -> jstring.max = Integer.parseInt(s));
+				set(jstring);
 				break;
 			case MAIL_ADDRESS:
 				break;

@@ -1,11 +1,11 @@
 package site.saishin.xschema.kv.typec.struct;
 
-import site.saishin.xschema.kv.typec.SchemaElementType;
+import site.saishin.xschema.kv.typec.DataType;
 
 class BooleanType extends BaseKvType<Boolean> {
 	boolean defaultValue;
 	@Override
-	public SchemaElementType type() {
-		return SchemaElementType.BOOLEAN;
+	public DataType type() {
+		return DataType.BOOLEAN;
 	}
 }

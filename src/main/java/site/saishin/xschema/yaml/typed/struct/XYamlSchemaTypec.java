@@ -1,6 +1,5 @@
 package site.saishin.xschema.yaml.typed.struct;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -10,31 +9,24 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 
-import site.saishin.xschema.kv.typec.SchemaElement;
-import site.saishin.xschema.kv.typec.SchemaElementType;
+import site.saishin.xschema.yaml.DataType;
+import site.saishin.xschema.yaml.Root;
 
 public class XYamlSchemaTypec {
 
 	static final Logger logger = LoggerFactory.getLogger(XYamlSchemaTypec.class);
-	final RootType jsonSchema;
+	final Root root;
 
 	private XYamlSchemaTypec(Builder builder) {
-		this.jsonSchema = builder.root;
+		this.root = builder.root;
 	}
 
 	private XYamlSchemaTypec(XYamlSchemaTypec base) {
-		this.jsonSchema = base.jsonSchema;
+		this.root = base.root;
 	}
 
-	public void dump() {
-		jsonSchema.objects.forEach((s, t) -> {
-			System.out.println(s);
-			
-		});
-	}
-
-	public SchemaElement root() {
-		return jsonSchema;
+	public Root root() {
+		return root;
 	}
 
 	public static XYamlSchemaTypec from(XYamlSchemaTypec value) {
@@ -57,20 +49,20 @@ public class XYamlSchemaTypec {
 
 		XYamlSchemaTypec build() {
 			root = new RootType();
-			root.objects = new HashMap<String, BaseYamlType>();
+			//root.objects = new HashMap<String, BaseYamlType>();
 			element(document.getDocumentElement());
 			return new XYamlSchemaTypec(this);
 		}
 
 		private void element(Element elem) {
 			NamedNodeMap attrs = elem.getAttributes();
-			switch (SchemaElementType.from(elem.getNodeName())) {
+			switch (DataType.from(elem.getNodeName())) {
 			case STRING:
 				StringType jstring = new StringType();
 				jstring.set(attrs);
 				current.put(jstring.name, jstring);
 				break;
-			case DECIMAL:
+			case FLOAT:
 				FloatType jnumber = new FloatType();
 				jnumber.set(attrs);
 				current.put(jnumber.name, jnumber);

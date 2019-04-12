@@ -2,14 +2,14 @@ package site.saishin.xschema.kv.typec.struct;
 
 import java.math.BigDecimal;
 
-import site.saishin.xschema.kv.typec.SchemaElementType;
+import site.saishin.xschema.kv.typec.DataType;
 
 class DecimalType extends BaseKvType<BigDecimal> {
 	BigDecimal defaultValue;
 	BigDecimal min;
 	BigDecimal max;
 	@Override
-	public SchemaElementType type() {
-		return SchemaElementType.DECIMAL;
+	public DataType type() {
+		return DataType.DECIMAL;
 	}
 }

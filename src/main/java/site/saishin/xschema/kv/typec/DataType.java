@@ -1,7 +1,7 @@
 package site.saishin.xschema.kv.typec;
 
 public enum DataType {
-	BOOLEAN,INTEGER,DECIMAL,STRING,URL,MAIL_ADDRESS;
+	BOOLEAN,INTEGER,DECIMAL,STRING,URL,MAIL_ADDRESS,NONE;
 	public static DataType from(String name) {
 		DataType type;
 		switch (name) {
