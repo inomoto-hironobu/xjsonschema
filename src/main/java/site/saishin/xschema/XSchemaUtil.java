@@ -3,6 +3,7 @@ package site.saishin.xschema;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,6 +14,7 @@ import javax.xml.validation.SchemaFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import site.saishin.domhelper.DomUtil;
 import site.saishin.xschema.json.typea.struct.XJsonSchemaTypea;
 import site.saishin.xschema.kv.typec.struct.XKvSchemaTypec;
 
@@ -23,7 +25,7 @@ public final class XSchemaUtil {
 	private static final DocumentBuilder typecBuilder;
 
 	static {
-		factory = DocumentBuilderFactory.newDefaultInstance();
+		factory = DocumentBuilderFactory.newInstance();
 		factory.setValidating(false);
 		// これがないとDOCTYPE宣言がないとなる
 		factory.setNamespaceAware(true);
@@ -36,8 +38,7 @@ public final class XSchemaUtil {
 		return XSchemaUtil.class.getResourceAsStream("/xschema" + name);
 	}
 	private static SchemaFactory schemaFactroy() {
-		SchemaFactory factory = SchemaFactory.newDefaultInstance();
-		
+		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		return factory; 
 	}
 	public static Schema createSchema(InputStream schemaLocation) {
