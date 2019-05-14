@@ -31,7 +31,7 @@ public class TypeaTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-
+	/*
 	@Test
 	public void complex() {
 		try {
@@ -42,7 +42,7 @@ public class TypeaTest {
 		} catch (SAXException e) {
 			e.printStackTrace();
 			fail();
-		}	
+		}
 	}
 	@Test
 	public void npm() {
@@ -65,9 +65,5 @@ public class TypeaTest {
 	@Test
 	public void test() {
 		
-	}
-	@Test
-	public void testVisitor() {
-		
-	}
+	}*/
 }

@@ -1,16 +1,12 @@
 package xschema.kv;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -23,19 +19,19 @@ import xschema.Util;
 
 public class TypecTest {
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUpBeforeClass() throws Exception {
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void tearDownAfterClass() throws Exception {
 	}
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 	}
 	@Test
@@ -47,7 +43,7 @@ public class TypecTest {
 			System.out.println(map);
 			map.forEach((s,m)->{
 				try {
-					XSchemaUtil.kvSchemaTypec(Util.kv(s + "/comment.xml"));
+					XSchemaUtil.kvSchemaTypec(Util.typec("/" + s + ".xml"));
 				} catch (IOException | SAXException e) {
 					e.printStackTrace();
 					fail(e.getMessage());
@@ -57,13 +53,5 @@ public class TypecTest {
 			e.printStackTrace();
 			fail();
 		}
-	}
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
-	@Test
-	public void testVisitor() {
-		fail("Not yet implemented");
 	}
 }

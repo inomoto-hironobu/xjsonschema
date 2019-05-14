@@ -18,14 +18,11 @@ public class Util {
 	public static InputStream typed(String name) {
 		return Util.class.getResourceAsStream("/xschema/yaml" + name);
 	}
-	public static InputStream kv(String name) {
-		return Util.class.getResourceAsStream("/xschema/kv" + name);
-	}
 	public static InputStream yaml(String name) {
-		return Util.class.getResourceAsStream("/xchema/yaml" + name);
+		return Util.class.getResourceAsStream("/xschema/yaml" + name);
 	}
 	public static InputStream csv(String name) {
-		return Util.class.getResourceAsStream("/xchema/csv" + name);
+		return Util.class.getResourceAsStream("/xschema/csv" + name);
 	}
 	public static InputStream schema(String name) {
 		return Util.class.getResourceAsStream("/xschema" + name);

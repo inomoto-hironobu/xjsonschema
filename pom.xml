@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>site.sai-shin</groupId>
 	<artifactId>xschema</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>xSchema</name>
 	<description>JSON、CSV、YAMLのスキーマをXMLで書く</description>
 	<properties>
@@ -13,20 +13,8 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-launcher</artifactId>
-			<version>1.4.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.4.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
 			<version>5.4.1</version>
 			<scope>test</scope>
 		</dependency>
@@ -49,13 +37,12 @@
 		<dependency>
 			<groupId>site.sai-shin.lib</groupId>
 			<artifactId>signifulo</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
+			<version>0.1.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>

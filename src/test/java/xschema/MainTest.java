@@ -1,39 +1,37 @@
 package xschema;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
+import java.io.IOException;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import site.saishin.xschema.Main;
 import site.saishin.xschema.XSchemaUtil;
 
 public class MainTest {
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUpBeforeClass() throws Exception {
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void tearDownAfterClass() throws Exception {
 	}
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception {
 	}
 
 	@Test
 	public void testSchemaLoading() {
-		assertNotNull(XSchemaUtil.createSchema(XSchemaUtil.schema("/xjsonschema-typea.xsd")));
-		assertNull(XSchemaUtil.createSchema(XSchemaUtil.schema("/null.xsd")));
+		try {
+			assertNotNull(XSchemaUtil.createSchema(XSchemaUtil.schema("/xjsonschema-typea.xsd")));
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+		
 		assertNotNull(XSchemaUtil.typeaSchema());
 		assertNotNull(XSchemaUtil.typeaSchema());
 		assertNotNull(XSchemaUtil.typeaSchema());
